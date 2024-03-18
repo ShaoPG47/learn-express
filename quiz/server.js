@@ -37,6 +37,17 @@ app.get('/read/usernames', (req, res) => {
   res.send(usernames);
 });
 
+app.get('/read/usernames/:name', (req, res) => {
+  const {username} = req.params;
+  const user = users.find(user => user.username === username)
+
+  if (user) {
+    res.json({email: user.email})
+  } else {
+    res.status(404).json({error: 'user not found'})
+  }
+})
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/write/adduser', addMsgToRequest);
